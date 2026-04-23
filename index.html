@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HelpDesk DSA - Internal Ticket Management</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============ NAVBAR ============ -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="logo-box">HD</span>
+      <span>Help<span class="accent-blue">Desk</span> <span class="accent-purple">DSA</span></span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#home" class="nav-link active" data-page="home">Home</a></li>
+      <li><a href="#raise" class="nav-link" data-page="raise">Raise Ticket</a></li>
+      <li><a href="#dashboard" class="nav-link" data-page="dashboard">Dashboard</a></li>
+      <li><a href="#about" class="nav-link" data-page="about">About</a></li>
+      <li><a href="#features" class="nav-link" data-page="features">Features</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============ TOAST ============ -->
+  <div id="toast" class="toast"></div>
+
+  <main>
+
+    <!-- ============ HOME PAGE ============ -->
+    <section id="home" class="page active">
+      <div class="hero">
+        <span class="badge-pill">DSA-Powered Ticket System</span>
+        <h1 class="hero-title">
+          Internal <span class="gradient-text">Helpdesk</span> Ticket System
+        </h1>
+        <p class="hero-sub">
+          A professional ticket management system powered by Data Structures &amp;
+          Algorithms. Priority queues, FIFO queues, stacks, and real-time search —
+          all working under the hood.
+        </p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary" data-goto="raise">Raise a Ticket →</button>
+          <button class="btn btn-ghost" data-goto="dashboard">View Dashboard</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2 class="section-title">Powered by Real DSA</h2>
+        <p class="section-sub">Every feature maps to a core data structures &amp; algorithms concept</p>
+        <div class="card-grid">
+          <div class="feature-card">
+            <h3>Priority Queue</h3>
+            <p>High priority tickets always served first. Implemented with weight-based comparison.</p>
+          </div>
+          <div class="feature-card">
+            <h3>FIFO Queue</h3>
+            <p>Tickets processed in the exact order they were raised — fair and predictable.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Stack (Undo)</h3>
+            <p>Every action is pushed to a stack, so you can undo the last operation instantly.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Linear Search</h3>
+            <p>Real-time search across ticket ID, title, name and description.</p>
+          </div>
+          <div class="feature-card">
+            <h3>Comparison Sort</h3>
+            <p>Sort tickets by priority weight or by creation date with a single click.</p>
+          </div>
+          <div class="feature-card">
+            <h3>localStorage</h3>
+            <p>All your data stays in your browser — no backend, no server, fully offline.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RAISE TICKET PAGE ============ -->
+    <section id="raise" class="page">
+      <div class="form-wrapper">
+        <h2 class="page-title">Raise a New Ticket</h2>
+        <p class="page-sub">Fill in the details. Tickets are pushed into a priority queue.</p>
+
+        <form id="ticketForm" class="ticket-form">
+          <label>Your Name
+            <input type="text" id="name" required placeholder="e.g. John Doe" />
+          </label>
+          <label>Ticket Title
+            <input type="text" id="title" required placeholder="Short summary" />
+          </label>
+          <label>Description
+            <textarea id="description" rows="4" required placeholder="Describe the issue..."></textarea>
+          </label>
+          <label>Priority
+            <select id="priority" required>
+              <option value="high">High</option>
+              <option value="medium" selected>Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </label>
+          <button type="submit" class="btn btn-primary">Submit Ticket</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============ DASHBOARD PAGE ============ -->
+    <section id="dashboard" class="page">
+      <h2 class="page-title">Ticket Dashboard</h2>
+      <p class="page-sub">Live view of all tickets — sorted, searchable, and undo-able.</p>
+
+      <div class="stats">
+        <div class="stat-card"><span id="statTotal">0</span><small>Total</small></div>
+        <div class="stat-card"><span id="statOpen">0</span><small>Open</small></div>
+        <div class="stat-card"><span id="statProgress">0</span><small>In Progress</small></div>
+        <div class="stat-card"><span id="statClosed">0</span><small>Closed</small></div>
+      </div>
+
+      <div class="dashboard-controls">
+        <input type="text" id="searchInput" placeholder="Search by ID, title, name..." />
+        <select id="filterPriority">
+          <option value="all">All Priorities</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <select id="filterStatus">
+          <option value="all">All Status</option>
+          <option value="open">Open</option>
+          <option value="in-progress">In Progress</option>
+          <option value="closed">Closed</option>
+        </select>
+        <select id="sortBy">
+          <option value="priority">Sort: Priority</option>
+          <option value="date">Sort: Newest</option>
+        </select>
+        <button id="undoBtn" class="btn btn-ghost">↶ Undo Last Action</button>
+      </div>
+
+      <div id="ticketList" class="ticket-list"></div>
+    </section>
+
+    <!-- ============ ABOUT PAGE ============ -->
+    <section id="about" class="page">
+      <h2 class="page-title">About This Project</h2>
+      <div class="about-grid">
+        <div class="feature-card">
+          <h3>What it is</h3>
+          <p>An Internal Helpdesk built as a college DSA project — pure frontend, zero backend.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Tech Used</h3>
+          <p>HTML5, CSS3, JavaScript (ES6+), and the browser's localStorage API.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Concepts Demonstrated</h3>
+          <p>Priority Queue, FIFO Queue, Stack, Linear Search, and Comparison-based Sort.</p>
+        </div>
+        <div class="feature-card">
+          <h3>How to Run</h3>
+          <p>Just open <code>index.html</code> in any modern browser. That's it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FEATURES PAGE ============ -->
+    <section id="features" class="page">
+      <h2 class="page-title">DSA Features Explained</h2>
+
+      <div class="dsa-block">
+        <h3>1. Priority Queue</h3>
+        <p>Each ticket has a priority weight: <b>High = 3, Medium = 2, Low = 1</b>. Tickets with higher weight come first.</p>
+        <pre><code>tickets.sort((a, b) => weight[b.priority] - weight[a.priority]);</code></pre>
+      </div>
+
+      <div class="dsa-block">
+        <h3>2. Stack (Undo)</h3>
+        <p>Every status change is pushed onto a stack. Undo simply pops the last action.</p>
+        <pre><code>actionStack.push(action);
+const last = actionStack.pop();</code></pre>
+      </div>
+
+      <div class="dsa-block">
+        <h3>3. Linear Search</h3>
+        <p>O(n) scan across all tickets matching ID, title, name or description.</p>
+        <pre><code>tickets.filter(t => t.title.toLowerCase().includes(query));</code></pre>
+      </div>
+
+      <div class="dsa-block">
+        <h3>4. Comparison Sort</h3>
+        <p>Sort by priority weight or by creation date using JavaScript's built-in sort.</p>
+        <pre><code>tickets.sort((a, b) => b.createdAt - a.createdAt);</code></pre>
+      </div>
+
+      <div class="dsa-block">
+        <h3>5. localStorage Persistence</h3>
+        <p>All tickets and the action stack are saved to localStorage as JSON.</p>
+        <pre><code>localStorage.setItem('helpdesk_tickets', JSON.stringify(tickets));</code></pre>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 HelpDesk DSA — Built with HTML, CSS &amp; JavaScript</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
